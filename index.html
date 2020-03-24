@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="prueba" lang="es">
+<head>
+    <meta charset = "utf-8">
+    <title>Titulo Pagina</title>
+   
+</head>
+<body>
+   <h4>Introducción</h4>
+   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+       Quasi adipisci unde corporis, qui fuga ab molestias voluptates consequatur 
+       doloribus magnam sapiente aliquid magni laborum, 
+       mollitia ipsum cupiditate placeat illo iste!</p>
+    <br>
+    <br>
+    <h4>empresas</h4>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        Quasi adipisci unde corporis, qui fuga ab molestias voluptates consequatur 
+        doloribus magnam sapiente aliquid magni laborum, 
+        mollitia ipsum cupiditate placeat illo iste!</p>
+    <br>
+  
+    <p>API key: <input id=inpApiKey value='demo'></p>
+	<p>Symbol: &nbsp;<input id=inpSymbol value='MSFT' ></p>
+    <button onclick=getAlphaData() >buscar</button>
+    
+    <!--<form id = "nomEmpre">
+        Nombre de la empresa: <input type = "text" list = "empresas" ng-model> 
+        Fecha inicial: <input type="date" name="tiempoInicio" >
+        Fecha final: <input type="date" name="tiempoFinal" >
+        
+        <&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>
+        
+    </form>
+
+     <datalist id = "empresas">
+        <option>Dell</option>
+        <option>Google</option>
+        <option>Microsoft</option>
+        <option>Repsol</option>
+     </datalist>-->
+    <br>
+
+    <!--<img src="prueba.png" alt="gráfica">-->
+    <div id = "resultados">muestra los resultados</div>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+        Nostrum provident expedita temporibus labore magni? 
+        Cum, alias aperiam animi et nisi perspiciatis perferendis voluptatibus harum, 
+        quibusdam esse unde fugit eius voluptates!</p>
+
+    <script type="text/javascript" src="angular.min.js"></script>
+    <script type="text/javascript" src = "controlador.js"></script>
+</body>
