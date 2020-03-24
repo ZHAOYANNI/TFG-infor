@@ -14,6 +14,16 @@ function getAlphaData() {
 function requestFile( url ) {
 
     const xhr = new XMLHttpRequest();
+    /*
+    xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var myArr = JSON.parse(this.responseText);
+        myFunction(myArr);
+        }
+    };
+    
+    */
+    
     xhr.open( 'GET', url, true );
     xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
     xhr.onload = callback;
