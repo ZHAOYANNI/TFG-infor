@@ -26,14 +26,9 @@ function getAlphaData() {
 function requestFile( url, func ) {
 
     const xhr = new XMLHttpRequest();
-    /*xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          var myArr = JSON.parse(this.responseText);
-          console.log(Object.key(myArr));
-        }
-      };*/
     xhr.open( 'GET', url, true );
     xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+
     if(func == 'TIME_SERIES_INTRADAY'){
         xhr.onload = callbackNor;
     }
@@ -57,6 +52,8 @@ function requestFile( url, func ) {
     }
     xhr.send( null );
 
+
+
     function callbackNor( xhr ) {
 
         let response;
@@ -67,11 +64,9 @@ function requestFile( url, func ) {
         for (j in datos){
          variable  = j; 
         }
-        variable = ""+variable+"";
-        var txt = "<table border='1'> <tr><th> Hora </th> <th> Open </th> <th> High </th>"+
+        variable = "" + variable + "";
+        var txt = "<table border='1'> <tr><th> Date </th> <th> Open </th> <th> High </th>"+
         "<th> Low </th> <th> Close </th> <th> Volume </th></tr> "
-
-        
 
         for(i in datos[variable]){
             hora = "" + i + "";
@@ -80,20 +75,13 @@ function requestFile( url, func ) {
                 txt += "<td>" + datos[variable][hora][j] + "</td>";
             }
             txt+="</tr>";
-            /*op = datos[variable][hora]["1. open"]
-            high = datos[variable][hora]["2. high"]
-            low = datos[variable][hora]["3. low"]
-            cl = datos[variable][hora]["4. close"]
-            vol = datos[variable][hora]["5. volume"]
-             + "</td><td>"  + op + "</td><td>" + high + "</td><td>" + low + "</td>"+
-            "<td>" + cl + "</td><td>" + vol + "</td></tr>";*/
         }
         txt += "</table>" 
         document.getElementById("resultados").innerHTML = txt;
-
-
     }
     
+
+
     function callbackAdj( xhr ) {
 
         let response;
@@ -105,11 +93,9 @@ function requestFile( url, func ) {
          variable  = j; 
         }
         variable = ""+variable+"";
-        var txt = "<table border='1'> <tr><th> Hora </th> <th> Open </th> <th> High </th>"+
+        var txt = "<table border='1'> <tr><th> Date </th> <th> Open </th> <th> High </th>"+
         "<th> Low </th> <th> Close </th> <th> Adjusted Close </th><th> Volume </th>"+
         "<th> Dividend amount </th></tr> "
-
-        
 
         for(i in datos[variable]){
             hora = "" + i + "";
@@ -121,9 +107,9 @@ function requestFile( url, func ) {
         }
         txt += "</table>" 
         document.getElementById("resultados").innerHTML = txt;
-
-
     }
+
+
 
     function callbackAdjD( xhr ) {
 
@@ -135,12 +121,10 @@ function requestFile( url, func ) {
         for (j in datos){
          variable  = j; 
         }
-        variable = ""+variable+"";
-        var txt = "<table border='1'> <tr><th> Hora </th> <th> Open </th> <th> High </th>"+
+        variable = "" + variable + "";
+        var txt = "<table border='1'> <tr><th> Date </th> <th> Open </th> <th> High </th>"+
         "<th> Low </th> <th> Close </th> <th> Adjusted Close </th><th> Volume </th>"+
         "<th> Dividend amount </th><th> Split coefficient </th></tr> "
-
-        
 
         for(i in datos[variable]){
             hora = "" + i + "";
@@ -152,8 +136,6 @@ function requestFile( url, func ) {
         }
         txt += "</table>" 
         document.getElementById("resultados").innerHTML = txt;
-
-
     }
 
 }
