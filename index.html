@@ -19,10 +19,47 @@
         doloribus magnam sapiente aliquid magni laborum, 
         mollitia ipsum cupiditate placeat illo iste!</p>
     <br>
-  
-    <p>API key: <input id=inpApiKey value='demo'></p>
-	<p>Symbol: &nbsp;<input id=inpSymbol value='MSFT' ></p>
-    <button onclick=getAlphaData() >buscar</button>
+
+    <p>Symbol: &nbsp;<input id=inpSymbol value='MSFT' ></p>
+    <p>
+
+		function:
+		<select id=inpFunction onchange=setInterval();  >
+			<option>TIME_SERIES_INTRADAY</option>
+			<option>TIME_SERIES_DAILY</option>
+			<option>TIME_SERIES_DAILY_ADJUSTED</option>
+			<option>TIME_SERIES_WEEKLY</option>
+			<option>TIME_SERIES_WEEKLY_ADJUSTED</option>
+			<option>TIME_SERIES_MONTHLY</option>
+			<option>TIME_SERIES_MONTHLY_ADJUSTED</option>
+		</select>
+
+			interval:
+			<select id=inpInterval >
+					<option>1min</option>
+					<option>5min</option>
+					<option>15min</option>
+					<option>30min</option>
+					<option>60min</option>
+			</select>
+        
+        <p>
+
+            output size:
+            <select id=inpSize >
+                <option>compact</option>
+                <option>full</option>
+            </select>
+    
+            data type:
+            <select id=inpType >
+                <option>json</option>
+                <option>csv</option>
+            </select>
+    
+        </p>
+	</p>
+    <button onclick=getAlphaData()> buscar </button>
     
     <!--<form id = "nomEmpre">
         Nombre de la empresa: <input type = "text" list = "empresas" ng-model> 
@@ -42,7 +79,7 @@
         <option>Repsol</option>
      </datalist>-->
     <br>
-
+    <br>
     <!--<img src="prueba.png" alt="gráfica">-->
     <div id = "resultados">muestra los resultados</div>
 
