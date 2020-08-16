@@ -1,0 +1,88 @@
+body {
+    background-image: url('recursos-financieros.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#principal {
+    padding-top: 100px;
+    padding-bottom:100px;
+    position:relative;
+    text-align: center;
+}
+
+#symbol {
+    color:white;
+    font-size: 30px;
+}
+
+input[type=text] {
+    width: 300px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+    background-image: url('searchicon.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    transition: width 0.4s ease-in-out;
+}
+
+.container-fluid{
+    background-color:whitesmoke;
+}
+.menu {
+    padding-bottom: 20px;
+    padding-top: 20px;
+    background-color: rgb(130, 121, 255);
+    text-align: center;
+    border: 2px solid #ccc;
+}
+
+.tab {
+    font-size: 20px;
+    padding: 8px;
+    color:white;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+  
+.function {
+    color:black;
+    font-size: 18px;
+    margin-left: 150px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    position:relative;
+}
+
+.boton {
+    font-size: 18px;
+    margin-left: 150px;
+    position:relative;
+}
+  
+.pNormal {
+    margin-left: 150px;
+    color: black;
+    position:relative;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+}
+  
+th, td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+  
+tr:nth-child(even) {background-color: #f2f2f2;}

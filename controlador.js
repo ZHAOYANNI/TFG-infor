@@ -4,8 +4,6 @@ var datos="";
 const apiKey = 'B565DEWCW6JTF829';
 
 app1.controller("controlador", function ($scope, $timeout){ 
-  
-    $scope.inpSymbol = "IBM";
 
     $scope.getAlphaData = function(){
 
@@ -13,7 +11,7 @@ app1.controller("controlador", function ($scope, $timeout){
         var endDt = document.getElementById("endDate").value;
 
         if( (new Date(startDt).getTime() > new Date(endDt).getTime())){
-            alert("Error, elige otra fecha final.");
+            alert("Sorry, the end date has to be later than the start date.");
         }
 
         else{
@@ -28,11 +26,24 @@ app1.controller("controlador", function ($scope, $timeout){
             var size = $scope.inpSize;
 
             var type = $scope.inpType;
+            if(symbol == null){
+                alert("Sorry, you have to enter the name of company o his symbol.");
+            }
+            if(func == null){
+                alert("Sorry, you have to choose a function.");
+            }
 
             var url = 'https://www.alphavantage.co/query?function='+ func 
                     + '&symbol=' + symbol;
-            if (func=='TIME_SERIES_INTRADAY') 
-                 url += '&interval=' + intel; 
+            if (func=='TIME_SERIES_INTRADAY'){
+                if(intel == null){
+                    alert("Sorry, you have to choose a interval.");
+                }
+                else{
+                    url += '&interval=' + intel; 
+                }
+            } 
+                
             url += '&apikey=' + apiKey;
 
             const xhr = new XMLHttpRequest();

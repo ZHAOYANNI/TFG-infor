@@ -4,11 +4,11 @@ app1.controller("fundamental", function ($scope, $timeout){
 
         var symbol = $scope.inpSymbol;
         if(symbol == null){
-            alert("Error. You have introduce a symbol.");
+            alert("Sorry, you have to enter a symbol.");
         }
         var data = $scope.inpData;
         if(data == null){
-            alert("Error. You have to choose a function.");
+            alert("Sorry, you have to choose a function.");
         }
 
         var url = 'https://www.alphavantage.co/query?function=';
