@@ -1,8 +1,6 @@
 app1.controller("fundamental", function ($scope, $timeout){ 
 
     $scope.getData = function(){
-
-        var symbol = $scope.inpSymbol;
         if(symbol == null){
             alert("Sorry, you have to enter a symbol.");
         }
@@ -25,6 +23,8 @@ app1.controller("fundamental", function ($scope, $timeout){
             url = url + 'CASH_FLOW';
         }
         url += '&symbol=' + symbol + '&apikey=' + apiKey;
+        $scope.showFundDownload = true;
+
         const xhr = new XMLHttpRequest();
         xhr.open( 'GET', url, true );
         xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
@@ -75,18 +75,9 @@ app1.controller("fundamental", function ($scope, $timeout){
             }
 
             if($scope.year == null){
-                console.log("estas en null");
                 var header = [];
                 for(x in datos[key][0]){
                     header.push(x);
-                }
-                console.log(datos[key]);
-                console.log(header);
-                for(x in datos[key]){
-                    console.log(x);
-                    for(j in datos[key][x]){
-                        console.log(j);
-                    }
                 }
                 $scope.headers = header;
                 $scope.fundamentales = datos[key];
@@ -128,5 +119,14 @@ app1.controller("fundamental", function ($scope, $timeout){
         else{
             $scope.optionReport = true;
         }
+    }
+
+    $scope.fundDownload = function(){
+        var fileName = symbol + 'FundamentalData.json';
+        var blob = new Blob([JSON.stringify(datos)], { type:"application/json;charset=utf-8;" });			
+        var downloadLink = angular.element('<a></a>');
+        downloadLink.attr('href',window.URL.createObjectURL(blob));
+        downloadLink.attr('download', fileName);
+        downloadLink[0].click();
     }
 });

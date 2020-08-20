@@ -1,7 +1,6 @@
 app1.controller("indicator", function ($scope, $timeout){ 
 
     $scope.getIndicator = function(){
-        var symbol = $scope.inpSymbol;
         if(symbol == null){
             alert("Sorry, you have to enter a symbol.");
         }
@@ -49,6 +48,7 @@ app1.controller("indicator", function ($scope, $timeout){
             url = url + '&apikey=' + apiKey;
         }
 
+        $scope.showIndDownload = true;
         const xhr = new XMLHttpRequest();
         xhr.open( 'GET', url, true );
         xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
@@ -63,8 +63,18 @@ app1.controller("indicator", function ($scope, $timeout){
 
         response = xhr.target.response;
         datos = JSON.parse( response );
-        console.log(datos);
         
+    }
+
+    $scope.indGraphDownload = function(){
+        var canvas = document.getElementById("lineChart");
+        var a = document.createElement("a");
+        if($scope.inpImageType == "jpeg")
+            a.href = canvas.toDataURL("image/jpeg");
+        else
+            a.href = canvas.toDataURL("image/png");
+        a.download = "graph"+symbol+$scope.indica;
+        a.click();
     }
 
     $scope.selectIndicator = function(){
@@ -97,6 +107,7 @@ app1.controller("indicator", function ($scope, $timeout){
     }
 
     function initChart(){
+        $scope.showIndGraphDownload = true;
        var serie1=[],serie2=[],serie3=[];
        var labels=[];
        var count=0;
@@ -168,5 +179,14 @@ app1.controller("indicator", function ($scope, $timeout){
             $scope.indLabels = labels;
             $scope.indData=[serie1];
         }
+    }
+
+    $scope.indicatorDownload=function(){
+        var fileName = symbol + $scope.indica + '.json';
+        var blob = new Blob([JSON.stringify(datos)], { type:"application/json;charset=utf-8;" });			
+        var downloadLink = angular.element('<a></a>');
+        downloadLink.attr('href',window.URL.createObjectURL(blob));
+        downloadLink.attr('download', fileName);
+        downloadLink[0].click();
     }
 })

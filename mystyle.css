@@ -6,12 +6,8 @@ body {
 
 #principal {
     padding-top: 100px;
-    padding-bottom:100px;
     position:relative;
     text-align: center;
-}
-
-#symbol {
     color:white;
     font-size: 30px;
 }
@@ -39,6 +35,7 @@ input[type=text] {
     background-color: rgb(130, 121, 255);
     text-align: center;
     border: 2px solid #ccc;
+    margin-top:150px;
 }
 
 .tab {
@@ -56,7 +53,6 @@ input[type=text] {
     font-size: 18px;
     margin-left: 150px;
     margin-top: 15px;
-    margin-bottom: 15px;
     position:relative;
 }
 
@@ -64,6 +60,10 @@ input[type=text] {
     font-size: 18px;
     margin-left: 150px;
     position:relative;
+    margin-top: 30px;
+    border-radius: 12px;
+    color:white;
+    background-color: steelblue;
 }
   
 .pNormal {
@@ -77,6 +77,8 @@ table {
     width: 100%;
     margin-top: 20px;
     border: 1px solid #ddd;
+    padding-left: 70px;
+    padding-right: 70px;
 }
   
 th, td {
@@ -86,3 +88,57 @@ th, td {
 }
   
 tr:nth-child(even) {background-color: #f2f2f2;}
+
+.GlobalresultTable {
+    padding-left: 150px;
+    padding-right: 150px;
+}
+
+
+.check {
+    position: relative;
+    display: inline-block;
+    background-image: url('inter.png');
+    background-repeat: no-repeat;
+    width: 17px;
+    height: 17px;
+    border-radius: 100%;
+    color: #000;
+    text-decoration: none;
+}
+.check:after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 0;
+    left: 14px;
+    width: 100px;
+    background-color: #000;
+    color: #FFF;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 5px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease-in-out;
+    will-change: opacity;
+}
+  
+.check:hover:after {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.searchResult{
+    background-color: white;
+    position:relative;
+    text-align: center;
+    margin-left:300px;
+    margin-right: 250px;
+}
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li:nth-child(even) {background-color: #f2f2f2;}

@@ -1,8 +1,3 @@
-var app1 = angular.module("prueba", ["chart.js"]);
-var datos="";
-
-const apiKey = 'B565DEWCW6JTF829';
-
 app1.controller("controlador", function ($scope, $timeout){ 
 
     $scope.getAlphaData = function(){
@@ -16,16 +11,12 @@ app1.controller("controlador", function ($scope, $timeout){
 
         else{
             $scope.showText = true;
-
-            var symbol = $scope.inpSymbol;
+            $scope.showTimeDownload = true;
 
             var func = $scope.inpFunction;
 
             var intel = $scope.inpInterval;
 
-            var size = $scope.inpSize;
-
-            var type = $scope.inpType;
             if(symbol == null){
                 alert("Sorry, you have to enter the name of company o his symbol.");
             }
@@ -76,7 +67,36 @@ app1.controller("controlador", function ($scope, $timeout){
         }
     }
 
+    $scope.download = function(){
+        var fileName = symbol + 'TimeSerieData';
+        var type = $scope.inpGlobalType;
+        if(type == "json"){
+            fileName += '.json';
+            var blob = new Blob([JSON.stringify(datos)], { type:"application/json;charset=utf-8;" });			
+            var downloadLink = angular.element('<a></a>');
+                    downloadLink.attr('href',window.URL.createObjectURL(blob));
+                    downloadLink.attr('download', fileName);
+            downloadLink[0].click();
+        }
+        else{
+            url += '&datatype=csv';
+            window.location.assign(url);
+        }
+    }
+
+    $scope.downloadGraph = function(){
+        var canvas = document.getElementById("line");
+        var a = document.createElement("a");
+        if($scope.inpImageType == "jpeg")
+            a.href = canvas.toDataURL("image/jpeg");
+        else
+            a.href = canvas.toDataURL("image/png");
+        a.download = "graph"+symbol+"TimeSerie";
+        a.click();
+    }
+
     function initChart(){
+        $scope.showGraphDownload = true;
         var open1=[], high=[], low=[], close1=[], volume=[], adjClose=[], divVol=[], split=[];
         var labels = [];
         var count = 0, key1, key2;
@@ -105,10 +125,22 @@ app1.controller("controlador", function ($scope, $timeout){
         }
         
         else{
-            var startDt = document.getElementById("startDate").value;
-            var endDt = document.getElementById("endDate").value;
-            startDt = new Date(startDt).getTime();
-            endDt = new Date(endDt).getTime();
+            if($scope.selFechaStart == null){
+                var startDt = 0;
+            }
+            else{
+                startDt = document.getElementById("startDate").value;
+                startDt = new Date(startDt).getTime();
+            }
+            if($scope.selFechaEnd == null){
+                var endDt = new Date()
+                endDt=endDt.getTime();
+            }
+            else{
+                endDt = document.getElementById("endDate").value;
+                endDt = new Date(endDt).getTime();
+            }
+
             for(i in datos[key2]){
                 var j = "" + i + "";
                 var fecha = new Date(j);
@@ -120,7 +152,6 @@ app1.controller("controlador", function ($scope, $timeout){
                     close1.unshift(parseFloat(datos[key2][i]["4. close"]));
                     if($scope.inpFunction == 'TIME_SERIES_DAILY' || $scope.inpFunction == 'TIME_SERIES_WEEKLY'
                         || $scope.inpFunction == 'TIME_SERIES_MONTHLY'){
-                            console.log("estamos en if");
                         volume.unshift(parseFloat(datos[key2][i]["5. volume"]));
                     }
                     else if($scope.inpFunction == 'TIME_SERIES_DAILY_ADJUSTED'){

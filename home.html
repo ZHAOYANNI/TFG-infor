@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset = "utf-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>
+
+<body ng-app="prueba">
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script type="text/javascript" src = "principal.js"></script>
+    <script type="text/javascript" src = "global.js"></script>
+    <script type="text/javascript" src = "controlador.js"></script>
+    <script type="text/javascript" src = "fundamental.js"></script>
+    <script type="text/javascript" src = "indicator.js"></script>
+
+    <script src="node_modules/chart.js/dist/Chart.min.js"></script>
+    <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+
+    <div ng-controller="principal">
+        <div id="principal">
+            Symbol: &nbsp;<input type = "text" ng-model="inpSymbol" placeholder="Search.." ng-keypress="search()">
+        </div>
+    <div class = "searchResult">
+        <ul ng-show = "showSearchResult">
+            <li ng-repeat = "sym in filteredSymbol = ( results | filter:sensitiveSearch)" ng-click="selectSymbol(sym)">
+                {{sym.symbol}}
+                &nbsp;&nbsp;&nbsp;
+                {{sym.name}}
+            </li>
+        </ul>
+        <tr ng-show="filteredSymbol.length == 0"></tr>
+    </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="menu">
+            <a class="tab" ng-click="tabselector = 'firsttab'" ng-class="{'activetab' : tabselector == 'firsttab'}">Global Quote</a>
+            <a class="tab" ng-click="tabselector = 'secondtab'" ng-class="{'activetab' : tabselector == 'secondtab'}">Time Serie</a>
+            <a class="tab" ng-click="tabselector = 'thirdtab'" ng-class="{'activetab' : tabselector == 'thirdtab'}">Fundamental Data</a>
+            <a class="tab" ng-click="tabselector = 'fourthtab'" ng-class="{'activetab' : tabselector == 'fourthtab'}">Tecnical Indicator</a>
+        </div>
+
+        <div ng-if="tabselector == 'firsttab'" >
+            <div ng-controller = "global">
+                <button ng-click = "getGlobalData()" class = "boton"> Search </button>
+                <br>
+                <div class="function" ng-show="showGlobalDownload">
+                    Data type:
+                    <select ng-model="inpGlobalType" >
+                        <option>json</option>
+                        <option>csv</option>
+                    </select>
+                    <button class="boton" ng-click="getGlobalDataDownload()"> Download</a>
+                </div>
+                <div class = "GlobalresultTable">
+                    <table>
+                        <tbody>
+                            <tr ng-repeat="(key, value) in global">
+                                <th>{{key.toUpperCase()}}</th>
+                                <td> {{value}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      
+        <!-- para time serie-->
+        <div ng-if="tabselector == 'secondtab'" >
+            <div ng-controller = "controlador">
+                <div class = "function">
+                Function:
+
+                <select ng-model="inpFunction" ng-change = "setTable()">
+                    <option>TIME_SERIES_INTRADAY</option>
+                    <option>TIME_SERIES_DAILY</option>
+                    <option>TIME_SERIES_DAILY_ADJUSTED</option>
+                    <option>TIME_SERIES_WEEKLY</option>
+                    <option>TIME_SERIES_WEEKLY_ADJUSTED</option>
+                    <option>TIME_SERIES_MONTHLY</option>
+                    <option>TIME_SERIES_MONTHLY_ADJUSTED</option>
+                </select>
+                &nbsp;&nbsp;
+                <span ng-model = "selInterval" ng-show="showInterval">
+                    Interval:
+                    <select ng-model="inpInterval" >
+                        <option>1min</option>
+                        <option>5min</option>
+                        <option>15min</option>
+                        <option>30min</option>
+                        <option>60min</option>
+                    </select>
+                </span>
+            </div>
+                
+                <div class = "function">
+                    <span ng-show="showFecha">
+                        Start date: <input type = "date" id="startDate" ng-model = "selFechaStart">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        End date: <input type="date" id="endDate" ng-model = "selFechaEnd">
+                        &nbsp;
+                        <a href="#" class="check" data-tooltip="You can choose the date o not"></a>
+                    </span>
+                </div>
+
+                <button ng-click = "getAlphaData()" class = "boton"> Search </button>
+
+                <div class="function" ng-show = "showTimeDownload">           
+                    Data type:
+                    <select ng-model="inpType" >
+                        <option>json</option>
+                        <option>csv</option>
+                    </select>
+                     <button ng-click = "download()" class = "boton"> Download </button>
+                </div>
+
+               
+
+                <p class = "pNormal" ng-show="showText"> El proceso tarda unos segundos y mostraremos los últimos cien resultados. 
+                Puede elegir los datos que quiera visualizar </p>
+                        
+                <canvas id = "line" class = "chart chart-line" chart-data="data" chart-labels="labels"
+                    chart-series = "series" chart-options = "options"></canvas>
+                        
+                <div class = "function" ng-show="showGraphDownload">
+                    Image type:
+                    <select ng-model="inpImageType" >
+                        <option>jpeg</option>
+                        <option>png</option>
+                    </select>
+                <button ng-click = "downloadGraph()" class = "boton"> Download the Graph </button>
+                </div>
+            </div>
+        </div>
+
+        <!--para los datos fundamentales-->
+        <div ng-if="tabselector == 'thirdtab'" >
+            <div ng-controller = "fundamental">
+                <div class = "function">
+                    Data:
+                    <select ng-model="inpData" ng-change="setOption()">
+                        <option>Company Overview</option>
+                        <option>Income Statement</option>
+                        <option>Balance Sheet</option>
+                        <option>Cash flow</option>
+                    </select>
+                    <span ng-show="optionReport">
+                        Report:
+                        <select ng-model = "report">
+                            <option>Annual Report</option>
+                            <option>Quarterly Report</option>    
+                        </select>
+                        &nbsp;&nbsp;
+                        Year: &nbsp; <input type = "number" ng-model = "year">
+                        <a href="#" class="check" data-tooltip="You can choose the year o not"></a>
+                    </span>
+                </div>
+                <button class="boton" ng-click = "getData()"> Search </button>
+                <div ng-show="showFundDownload">
+                    <button ng-click = "fundDownload()" class = "boton"> Download </button>
+                </div>
+                <div id = "resultadoFundamental">
+
+                    <table ng-show="showIncomeTable" class = "resultTable">
+                        <tbody>
+                            <tr ng-repeat="i in headers">
+                                <th>{{i}}</th>
+                                <td ng-repeat="x in fundamentales">{{x[0][i]}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p ng-show="withoutResult"> We are sorry, we don't have result about this year.</p>
+                    <table ng-show="showIncomeTableYear" class = "resultTable">
+                        <tbody>
+                            <tr ng-repeat="i in headers">
+                                <th>{{i}}</th>
+                                <td ng-repeat="x in fundamentales">{{x[i]}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <div>
+                        <p id = "resultadoBasico" class = "pNormal"> </p>
+                        <table ng-show="showBasicTable" class = "resultTable">
+                            <tbody>
+                                <tr ng-repeat="i in headers">
+                                    <th>{{i}}</th>
+                                    <td>{{fundamentales[i]}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+
+        <!--para los indicadores tecnicos-->
+        <div ng-if="tabselector == 'fourthtab'">
+            <div ng-controller = "indicator">
+                <div class="function">
+                    Indicator:
+                    <select ng-model="indica" ng-change="selectIndicator()">
+                        <option>AD</option>
+                        <option>ADX</option> 
+                        <option>AROON</option> 
+                        <option>BBANDS</option>
+                        <option>CCI</option> 
+                        <option>EMA</option> 
+                        <option>MACD</option>  
+                        <option>OBV</option>
+                        <option>RSI</option> 
+                        <option>SMA</option> 
+                        <option>STOCH</option> 
+                        <option>VWAP</option> 
+                    </select>
+                    &nbsp;&nbsp;
+                    Interval:
+                    <select ng-model="indInterval">
+                        <option>1min</option>
+                        <option>5min</option>
+                        <option>15min</option>
+                        <option>30min</option>
+                        <option>60min</option>
+                        <option ng-show="optVWAP">daily</option>
+                        <option ng-show="optVWAP">weenkly</option>
+                        <option ng-show="optVWAP">monthly</option>
+                    </select>
+                    <br>
+                    <span ng-show="showTimePeriod">
+                    Time period: &nbsp; <input type="number" ng-model="inpTimePeriod" required = "required">
+                    </span>
+                </div>
+                <div class="function">
+                    <span ng-show="showSerieType">
+                        Serie type:
+                        <select ng-model="inpSerieType">
+                            <option>close</option>
+                            <option>open</option>
+                            <option>high</option>
+                            <option>low</option>
+                        </select>
+                    </span>
+                </div>
+
+                <button class="boton" ng-click = "getIndicator()"> Search </button>
+                <div ng-show="showIndDownload">
+                    <button ng-click = "indicatorDownload()" class = "boton"> Download </button>
+                </div>
+
+                <canvas id = "lineChart" class = "chart chart-line" chart-data="indData" chart-labels="indLabels"
+                chart-series = "indSeries" chart-options = "indOptions"></canvas>
+
+                <div class="function" ng-show = "showIndGraphDownload">           
+                    Image type:
+                    <select ng-model="inpIndType" >
+                        <option>jpeg</option>
+                        <option>png</option>
+                    </select>
+                     <button ng-click = "indGraphDownload()" class = "boton"> Download the Graph </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      
+</body>
