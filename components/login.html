@@ -1,0 +1,11 @@
+ <div ng-controller="loginController">
+    <h2>Login</h2>
+    User name: <input type = "text" ng-model="loginInfo.username" placeholder="Username">
+    <p class = "error" ng-show="Error1">Error, the user name mustn't be null. </p>
+    <br>
+    Password: <input type = "password" ng-model="loginInfo.password" placeholder="Password">
+    <p class = "error" ng-show="Error2">Error, the password mustn't be null. </p>
+    <br>
+    <p class= "error" ng-show="errorexiste"> Error, your user name o password is wrong. </p>
+    <button ng-click="userLogin()"> Login</button>
+</div>

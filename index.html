@@ -1,175 +1,22 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset = "utf-8">
-    <title>Titulo Pagina</title>
-    <link rel="stylesheet" type="text/css" href="mystyle.css">
+    <meta charset="utf-8">
+    <title>Login page</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-
-<body ng-app="prueba">
-    <script src="node_modules/angular/angular.min.js"></script>
-
-    <script type="text/javascript" src = "controlador.js"></script>
-    <script type="text/javascript" src = "fundamental.js"></script>
+<body ng-app="main">
+    <script type="text/javascript" src="angular.min.js"></script>
+    <script type="text/javascript" src="controls.js"></script>
+    <script type="text/javascript" src="angular-route.min.js"></script>
+    <script type="text/javascript" src="components/loginController.js"></script>
+    <script type="text/javascript" src="components/userCtrl.js"></script>
     <script src="node_modules/chart.js/dist/Chart.min.js"></script>
     <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
-
-    <p>Symbol: &nbsp;<input type = "text" ng-model="inpSymbol"></p>
-    
-    <div class="container-fluid">
-        <div class="ods-box">
-          <div>
-            <a class="tab" ng-click="tabselector = 'firsttab'" ng-class="{'activetab' : tabselector == 'firsttab'}">Time serie</a>
-            <a class="tab" ng-click="tabselector = 'secondtab'" ng-class="{'activetab' : tabselector == 'secondtab'}">Fundamental data</a>
-            <a class="tab" ng-click="tabselector = 'thirdtab'" ng-class="{'activetab' : tabselector == 'thirdtab'}">Forex</a>
-            <a class="tab" ng-click="tabselector = 'fourthtab'" ng-class="{'activetab' : tabselector == 'fourthtab'}">Cryptocurrencies</a>
-            <a class="tab" ng-click="tabselector = 'fifthtab'" ng-class="{'activetab' : tabselector == 'fifthtab'}">Technical Indicators</a>
-          </div>
-      
-          <div class="ods-box">
-            <!-- para time serie-->
-            <div ng-if="tabselector == 'firsttab'" >
-                <div ng-controller = "controlador">
-                
-                    <p></p>
-        
-                    function:
-                    <select ng-model="inpFunction" ng-change = "setTable()">
-                        <option>TIME_SERIES_INTRADAY</option>
-                        <option>TIME_SERIES_DAILY</option>
-                        <option>TIME_SERIES_DAILY_ADJUSTED</option>
-                        <option>TIME_SERIES_WEEKLY</option>
-                        <option>TIME_SERIES_WEEKLY_ADJUSTED</option>
-                        <option>TIME_SERIES_MONTHLY</option>
-                        <option>TIME_SERIES_MONTHLY_ADJUSTED</option>
-                    </select>
-        
-                    <span ng-model = "selInterval" ng-show="showInterval">
-                        interval:
-                        <select ng-model="inpInterval" >
-                            <option>1min</option>
-                            <option>5min</option>
-                            <option>15min</option>
-                            <option>30min</option>
-                            <option>60min</option>
-                        </select>
-                    </span>
-                    <br>
-                            
-                    <span ng-model = "selFecha" ng-show="showFecha">
-                        Fecha inicio: &nbsp; <input type = "date" id="startDate">
-                        <br>
-                        Fecha final: &nbsp; <input type="date" id="endDate" >
-                    </span>
-                            
-                    <button ng-click = "getAlphaData()"> buscar </button>
-                    <br>
-                    <br>
-                            
-                    </p>
-                    <p>
-                    output size:
-                    <select ng-model="inpSize" >
-                        <option>compact</option>
-                        <option>full</option>
-                    </select>
-                        
-                    data type:
-                    <select ng-model="inpType" >
-                        <option>json</option>
-                        <option>csv</option>
-                    </select>
-                        
-                    </p>
-                    <p ng-show="showText"> El proceso tarda unos segundos y mostraremos los últimos cien resultados. 
-                    <br>
-                    Puede elegir los datos que quiera visualizar </p>
-                        
-                    <canvas id = "line" class = "chart chart-line" chart-data="data" chart-labels="labels"
-                        chart-series = "series" chart-options = "options"></canvas>
-                        
-        
-                </div>
-            </div>
-
-            <!--para los datos fundamentales-->
-            <div ng-if="tabselector == 'secondtab'" >
-                <div ng-controller = "fundamental">
-                    <p></p>
-        
-                    Data:
-                    <select ng-model="inpData" ng-change="setOption()">
-                        <option>Company Overview</option>
-                        <option>Income Statement</option>
-                        <option>Balance Sheet</option>
-                        <option>Cash flow</option>
-                    </select>
-                    <br>
-                    <span ng-show="optionReport">
-                         Report:
-                         <select ng-model = "report">
-                            <option>Annual Report</option>
-                            <option>Quarterly Report</option>    
-                         </select>
-                         <br>
-
-                         Year: &nbsp; <input type = "text" ng-model = "year">
-                    </span>
-                    <br>
-                    <button ng-click = "getData()"> buscar </button>
-                    <div id = "resultadoFundamental">
-
-                        <table ng-show="showIncomeTable">
-                            <tbody>
-                                <tr ng-repeat="i in headers">
-                                    <th>{{i}}</th>
-                                    <td ng-repeat="x in fundamentales">{{x[0][i]}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <p ng-show="withoutResult"> We are sorry, we don't have result about this year.</p>
-                        <table ng-show="showIncomeTableYear">
-                            <tbody>
-                                <tr ng-repeat="i in headers">
-                                    <th>{{i}}</th>
-                                    <td ng-repeat="x in fundamentales">{{x[i]}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-
-                        <div>
-                            <p id = "resultadoBasico"> </p>
-                            <table ng-show="showBasicTable">
-                                <tbody>
-                                    <tr ng-repeat="i in headers">
-                                        <th>{{i}}</th>
-                                        <td>{{fundamentales[i]}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-            
-                </div>
-            </div>
-
-            <!--para forex-->
-            <div ng-if="tabselector == 'thirdtab'">
-              Content of third tab
-            </div>
-
-            <div ng-if="tabselector == 'fourthtab'">
-                Content of third tab
-            </div>
-
-            <div ng-if="tabselector == 'fifthtab'">
-                Content of third tab
-            </div>
-          </div>
-      
-        </div>
-      </div>
-      
+   
+    <div ng-view></div>
+   
 </body>
+</html>

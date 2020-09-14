@@ -1,0 +1,66 @@
+<div ng-controller="userCtrl">
+    <!--para las acciones-->
+    <div class = "contentTbale">
+        <p>
+            Your actions:
+        </p>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Number Acction</th>
+                    <th>Base</th>
+                    <th>Current/acction</th>
+                    <th>Profit</th>
+                    <th>Acction</th>
+                  </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat='i in user_acction'>
+                    <td>{{i.company}}</td>
+                    <td>{{i.number_acction}}</td>
+                    <td>{{i.base}}</td>
+                    <td>{{i.current}}</td>
+                    <td>{{i.profit}}</td>
+                    <td><button ng-click="add(i.company)">add</button>
+                    <button ng-click="delete(i.company)">subtract</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-show="showAddAction">
+            Number of actions you want to add: <input type = "number" ng-model = "num_action">
+            <button ng-click = "addAction()">OK</button>
+        </div>
+        <div ng-show="showSubAction">
+            Number of actions you want to subtract: <input type = "number" ng-model = "num_acction_sub">
+            <button ng-click = "subAction()">OK</button>
+        </div>
+        <nav>
+            <ul class="pagination">
+                <li>
+                    <a ng-click="Previous()">
+                        <span>&laquo</span>
+                    </a>
+                </li>
+                <li ng-repeat="page in pageList" ng-class="{active: isActivePage(page)}" >
+                    <a ng-click="selectPage(page)" >{{ page }}</a>
+                </li>
+                <li>
+                    <a ng-click="Next()">
+                        <span>&raquo</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+    <div>
+        Total Profit: {{totalProfit}}
+    </div>
+
+    <!--para los comparadores-->
+    <div class = "contentTable" ng-repeat="j in contador">
+        <canvas class = "chart chart-line" chart-data="data[j]" chart-labels="labels[j]"
+        chart-series = "series" chart-options = "options"></canvas>
+    </div>
+</div>  
